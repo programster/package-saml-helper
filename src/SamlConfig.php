@@ -16,12 +16,12 @@ final class SamlConfig
 
     /**
      * Create the complete SAML configuration object for the client to use.
+     * @param ServiceProviderConfig $spConfig - details about the service provider (this website/service)
+     * @param IdentityProviderConfig $idpConfig - details about the identity provider (SAML SSO server).
      * @param bool $strict - if true, then will reject unsigned or unencrypted messages if it expects them to be
      * signed or encrypted. Also it will reject the messages if the SAML standard is not strictly followed:
      * Destination, NameId, Conditions ... are validated too.
      * @param bool $debug - if true, will print errors.
-     * @param ServiceProviderConfig $spConfig - details about the service provider (this website/service)
-     * @param IdentityProviderConfig $idpConfig - details about the identity provider (SAML SSO server).
      */
     public function __construct(
         ServiceProviderConfig $spConfig,
