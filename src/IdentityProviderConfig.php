@@ -34,9 +34,9 @@ final class IdentityProviderConfig
         string $entityId,
         string $authUrl,
         string $logoutUrl,
-        ?string $logoutResponseUrl = null,
         string $publicSigningCertificate,
         ?string $publicEncryptionCertificate = null,
+        ?string $logoutResponseUrl = null,
     )
     {
         $this->m_entityId = $entityId;

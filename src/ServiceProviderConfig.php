@@ -47,7 +47,7 @@ final class ServiceProviderConfig
         $this->m_description = $description;
         $this->m_entityId = $entityId;
         $this->m_publicCert = $publicCert;
-        $this->m_privateKey = $privateSigningKey;
+        $this->m_privateKey = $privateKey;
         $this->m_requestedAttributes = $requestedAttributes;
         $this->m_loginHandlerUrl = $loginHandlerUrl;
         $this->m_logoutHandlerUrl = $logoutHandlerUrl;
