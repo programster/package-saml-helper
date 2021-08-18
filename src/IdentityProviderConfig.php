@@ -13,7 +13,7 @@ final class IdentityProviderConfig
     private string $m_logoutUrl;
     private ?string $m_logoutResponseUrl;
     private string $m_publicSigningCertificate;
-    private string $m_publicEncryptionCertificate;
+    private ?string $m_publicEncryptionCertificate;
 
     /**
      *
@@ -61,7 +61,7 @@ final class IdentityProviderConfig
 
             // URL Target of the IdP where the Authentication Request Message
             // will be sent.
-            'url' => $this->m_identityProviderAuthUrl,
+            'url' => $this->m_authUrl,
 
             // SAML protocol binding to be used when returning the <Response>
             // message. OneLogin Toolkit supports the HTTP-Redirect binding
@@ -99,7 +99,7 @@ final class IdentityProviderConfig
         else
         {
             // Public x509 certificate of the IdP
-            $arrayForm['x509cert'] = $this->m_identityProviderPublicSigningCertificate;
+            $arrayForm['x509cert'] = $this->m_publicSigningCertificate;
         }
 
         return $arrayForm;
