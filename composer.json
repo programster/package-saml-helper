@@ -1,0 +1,26 @@
+{
+    "name": "programster/saml",
+    "type": "library",
+    "description": "A library to help with interfacing with a SAML SSO. This does so by wrapping around the onelogin/php-saml package.",
+    "keywords": ["SAML", "SSO"],
+    "homepage": "https://github.com/programster/package-saml-helper",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stuart Page",
+            "email": "sdpagent@gmail.com",
+            "homepage": "https://blog.programster.org/",
+            "role": "Master of the universe."
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0",
+        "onelogin/php-saml": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Programster\\Saml\\": "src",
+            "Programster\\Saml\\Exceptions": "src/exceptions"
+        }
+    }
+}
