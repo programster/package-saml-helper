@@ -14,16 +14,10 @@ class SamlClient
     private \OneLogin\Saml2\Auth $m_auth;
 
 
-    public function __construct(\OneLogin\Saml2\Auth $auth)
+    public function __construct(SamlConfig $config)
     {
+        $auth = new \OneLogin\Saml2\Auth($config->toArray());
         $this->m_auth = $auth;
-    }
-
-
-    public static function createFromSettings(array $settings)
-    {
-        $auth = new \OneLogin\Saml2\Auth($settings);
-        return new SamlClient($auth);
     }
 
 
@@ -50,7 +44,7 @@ class SamlClient
 
     /**
      * Handle a SAML login/authenticate response.
-     * @return \SamlAuthResponse - the information in the SAML response. Crucially this contains the method
+     * @return SamlAuthResponse - the information in the SAML response. Crucially this contains the method
      * getUserAttributes() for getting the attributes of the logged in user.
      * It is still up to you to implement the necessary logic for your site to consider the user logged in.
      * E.g. get the user info from the response object and set the session user ID etc.
