@@ -24,10 +24,10 @@ final class SamlConfig
      * @param IdentityProviderConfig $idpConfig - details about the identity provider (SAML SSO server).
      */
     public function __construct(
+        ServiceProviderConfig $spConfig,
+        IdentityProviderConfig $idpConfig,
         bool $strict = true,
         bool $debug = false,
-        ServiceProviderConfig $spConfig,
-        IdentityProviderConfig $idpConfig
     )
     {
         $this->m_strict = $strict;
