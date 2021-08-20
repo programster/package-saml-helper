@@ -27,7 +27,7 @@ final class SamlConfig
         ServiceProviderConfig $spConfig,
         IdentityProviderConfig $idpConfig,
         bool $strict = true,
-        bool $debug = false,
+        bool $debug = false
     )
     {
         $this->m_strict = $strict;
