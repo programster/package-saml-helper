@@ -38,7 +38,7 @@ class SamlClient
             throw new Exceptions\ExceptionInvalidUrl($returnToUrl);
         }
 
-        $this->m_auth->login($returnToURL);   // Method that sent the AuthNRequest
+        $this->m_auth->login($returnToUrl);   // Method that sent the AuthNRequest
     }
 
 
@@ -79,7 +79,15 @@ class SamlClient
      */
     public function handleSamlLogoutResponse() : string
     {
-        $ssoUrl = $this->m_auth->processSLO(keepLocalSession: true, stay: false) ?? "";
+        $ssoUrl = $this->m_auth->processSLO(
+            true, // keepLocalSession
+            null, // requestId
+            false, // retrieveParametersFromServer
+            null, // $cbDeleteSession
+            true // stay
+        );
+
+        $ssoUrl = $ssoUrl ?? "";
         $errors = $this->m_auth->getErrors();
 
         if (count($this->m_auth->getErrors()) > 0)
