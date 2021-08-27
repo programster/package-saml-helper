@@ -92,7 +92,7 @@ class SamlClient
             }
         }
 
-        return \OneLogin\Saml2\Metadata::builder(
+        $xmlString = \OneLogin\Saml2\Metadata::builder(
             $settings->getSPData(),
             $authnsign = false,
             $wantAssertionsSigned = false,
@@ -101,6 +101,17 @@ class SamlClient
             $contactsArray,
             $organizationArray
         );
+
+        // format the xml
+        $loadxml = simplexml_load_string($metadata);
+        $dom = new DOMDocument('1.0');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($loadxml->asXML());
+        $simpleXmlElement = new SimpleXMLElement($dom->saveXML());
+        //$formatxml->saveXML("testF.xml"); // save as file
+        $formattedXml = $simpleXmlElement->saveXML();
+        return $formattedXml;
     }
 
 
