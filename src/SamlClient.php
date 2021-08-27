@@ -42,11 +42,10 @@ class SamlClient
      * how the underlying package works, you can only have one contact per contact type. E.g. only one "billing"
      * contact.
      *
-     * @param array $organization  Organization ingo
+     * @param Organization|null $organization - optionally provide details of the organization behind the service
+     * provider
      *
-     * @param array         $attributes
-     *
-     * @return string SAML Metadata XML
+     * @return string - the generated SAML Metadata XML
      */
     public function getServiceProviderMetadata(
         bool $authnsign = false,
@@ -54,8 +53,7 @@ class SamlClient
         ?int $validUntil = null,
         ?int $cacheDuration = null,
         ?ContactCollection $contacts = null,
-        ?Organization $organization = null,
-        array $attributes = array()
+        ?Organization $organization = null
     ) : string
     {
         $settings = $this->getAuth()->getSettings();
