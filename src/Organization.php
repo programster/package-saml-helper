@@ -28,6 +28,8 @@ final class Organization
         {
             throw new \Exception("One must provide at least one OrganizationTranslation if creating an Organization object.");
         }
+
+        $this->m_organizationTranslations = $organizationTranslations;
     }
 
 
