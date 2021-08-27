@@ -15,10 +15,12 @@ class RequestedAttribute
 
 
     /**
-     * 
+     *
      * @param bool $isRequired - whether the attribute is required or not.
      * @param string $name - the formal/computer name for the attribute. E.g. "urn:oid:1.3.6.1.4.1.1466.115.121.1.26"
-     * @param string|null $friendlyName - the friendly name for the attribute. E.g. "email"
+     * These names are fairly standardised, and you will probably find the urn ID in the table at:
+     * https://wiki.cac.washington.edu/display/infra/Guide+to+NameID+Formats+and+Attributes+Available+from+the+UW+IdP
+     * @param string|null $friendlyName - the friendly name for the attribute. E.g. "mail" or "surname"
      * @param AttributeNameFormat|null $nameFormat - optionally set the format for the requested attribute
      * @param array|null $attributeValue - optionally set the attribute value
      */
