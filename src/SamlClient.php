@@ -103,11 +103,11 @@ class SamlClient
         );
 
         // format the xml
-        $loadxml = simplexml_load_string($metadata);
+        $simpleXml = simplexml_load_string($xmlString);
         $dom = new DOMDocument('1.0');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
-        $dom->loadXML($loadxml->asXML());
+        $dom->loadXML($simpleXml->asXML());
         $simpleXmlElement = new SimpleXMLElement($dom->saveXML());
         //$formatxml->saveXML("testF.xml"); // save as file
         $formattedXml = $simpleXmlElement->saveXML();
