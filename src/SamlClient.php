@@ -66,7 +66,7 @@ class SamlClient
             foreach ($contacts as $contact)
             {
                 /* @var $contact \Programster\Saml\Contact */
-                $contactsArray[$contact->getType()] = [
+                $contactsArray[(string)$contact->getType()] = [
                     'givenName' => $contact->getName(),
                     'emailAddress' => $contact->getEmail()
                 ];
