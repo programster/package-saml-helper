@@ -21,9 +21,9 @@ final class AttributeNameFormat implements \Stringable
     }
 
 
-    public function createUnspecified() : AttributeNameFormat { return new AttributeNameFormat('urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified'); }
-    public function createUri() : AttributeNameFormat { return new AttributeNameFormat('urn:oasis:names:tc:SAML:2.0:attrname-format:uri'); }
-    public function createBasic() : AttributeNameFormat { return new AttributeNameFormat('urn:oasis:names:tc:SAML:2.0:attrname-format:basic'); }
+    public static function createUnspecified() : AttributeNameFormat { return new AttributeNameFormat('urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified'); }
+    public static function createUri() : AttributeNameFormat { return new AttributeNameFormat('urn:oasis:names:tc:SAML:2.0:attrname-format:uri'); }
+    public static function createBasic() : AttributeNameFormat { return new AttributeNameFormat('urn:oasis:names:tc:SAML:2.0:attrname-format:basic'); }
 
 
     public function __toString()
