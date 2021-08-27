@@ -134,4 +134,13 @@ final class ServiceProviderConfig
 
         return $arrayForm;
     }
+
+
+    # Accessors
+    public function getEntityId() : string { return $this->m_entityId; }
+    public function getName() : string { return $this->m_name; }
+    public function getDescription() : string { return $this->m_description; }
+    public function getPublicCert() : string { return $this->m_publicCert; }
+    public function getPrivateKey() : string { return $this->m_privateKey; }
+    public function getRequestedAttributes() : string { return $this->m_requestedAttributes; }
 }

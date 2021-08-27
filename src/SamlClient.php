@@ -12,10 +12,11 @@ namespace Programster\Saml;
 class SamlClient
 {
     private \OneLogin\Saml2\Auth $m_auth;
-
+    private SamlConfig $m_config;
 
     public function __construct(SamlConfig $config)
     {
+        $this->m_config = $config;
         $auth = new \OneLogin\Saml2\Auth($config->toArray());
         $this->m_auth = $auth;
     }
@@ -23,7 +24,11 @@ class SamlClient
 
     /**
      * Retrieves the metadata of the service provider based on the settings.
-     * https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf
+     * Spec doc: https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf
+     * Validation tool: https://validator.safire.ac.za/
+     *
+     * @param bool $signMetadata - whether you want the generated metadata xml to be signed. This will use your
+     * service provider certificate to sign the XML.
      *
      * @param bool $authnsign - authnRequestsSigned attribute - Optional attribute that indicates whether the
      * <samlp:AuthnRequest> messages sent by this service provider will be signed.
@@ -48,6 +53,7 @@ class SamlClient
      * @return string - the generated SAML Metadata XML
      */
     public function getServiceProviderMetadata(
+        bool $signMetadata = true,
         bool $authnsign = false,
         bool $wantAssertionsSigned = false,
         ?int $validUntil = null,
@@ -102,6 +108,22 @@ class SamlClient
             $organizationArray
         );
 
+        $xmlString = \OneLogin\Saml2\Metadata::addX509KeyDescriptors(
+            $xmlString,
+            $this->m_config->getServiceProviderConfig()->getPublicCert()
+        );
+
+        if ($signMetadata)
+        {
+            $this->m_config->getServiceProviderConfig();
+
+            $xmlString = \OneLogin\Saml2\Metadata::signMetadata(
+                $xmlString,
+                $this->m_config->getServiceProviderConfig()->getPrivateKey(),
+                $this->m_config->getServiceProviderConfig()->getPublicCert(),
+            );
+        }
+
         // format the xml
         $simpleXml = simplexml_load_string($xmlString);
         $dom = new \DOMDocument('1.0');
@@ -111,6 +133,7 @@ class SamlClient
         $simpleXmlElement = new \SimpleXMLElement($dom->saveXML());
         //$formatxml->saveXML("testF.xml"); // save as file
         $formattedXml = $simpleXmlElement->saveXML();
+
         return $formattedXml;
     }
 

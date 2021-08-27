@@ -104,4 +104,13 @@ final class IdentityProviderConfig
 
         return $arrayForm;
     }
+
+
+    # Accessors
+    public function getEntityId() : string { return $this->m_entityId; }
+    public function getAuthUrl() : string { return $this->m_authUrl; }
+    public function getLogoutUrl() : string { return $this->m_logoutUrl; }
+    public function getLogoutResponseUrl() : ?string { return $this->m_logoutResponseUrl; }
+    public function getPublicSingingCertificate() : string { return $this->m_publicSigningCertificate; }
+    public function getPublicEncryptionCertificate() : ?string { return $this->m_publicEncryptionCertificate; }
 }
