@@ -9,7 +9,7 @@ declare(strict_types = 1);
 namespace Programster\Saml;
 
 
-final class ContactType implements Stringable
+final class ContactType implements \Stringable
 {
     private string $m_type;
 
