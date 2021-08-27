@@ -15,7 +15,9 @@
     ],
     "require": {
         "php": ">=7.4.0",
-        "onelogin/php-saml": "^4.0"
+        "onelogin/php-saml": "^4.0",
+        "ext-dom": "*",
+        "ext-xml": "*"
     },
     "autoload": {
         "psr-4": {

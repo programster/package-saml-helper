@@ -8,6 +8,7 @@ namespace Programster\Saml;
 
 final class ServiceProviderConfig
 {
+    private NameIdFormat $m_subjectNameIdFormat;
     private string $m_entityId;
     private string $m_name;
     private string $m_description;
@@ -19,6 +20,8 @@ final class ServiceProviderConfig
     /**
      *
      * @param string $entityId - the entity ID of this service provider. E.g. https://app.mydomain.com
+     * @param NameIdFormat $subjectNameIdFormat - Specifies the constraints on the name identifier to be used to
+     * represent the requested subject.
      * @param string $name - the name of this service provider. E.g. "Programster Forum"
      * @param string $description - the description of this service provider. E.g. "A forum for Programster".
      * @param string $loginHandlerUrl - the URL/endpoint of this service where we expect to handle the response from
@@ -34,6 +37,7 @@ final class ServiceProviderConfig
      */
     public function __construct(
         string $entityId,
+        NameIdFormat $subjectNameIdFormat,
         string $name,
         string $description,
         string $loginHandlerUrl,
@@ -43,6 +47,7 @@ final class ServiceProviderConfig
         RequestedAttribute ...$requestedAttributes
     )
     {
+        $this->m_subjectNameIdFormat = $subjectNameIdFormat;
         $this->m_name = $name;
         $this->m_description = $description;
         $this->m_entityId = $entityId;
@@ -56,22 +61,6 @@ final class ServiceProviderConfig
 
     public function toArray() : array
     {
-        $attributeConsumingService = array(
-            "serviceName" => $this->m_name,
-            "serviceDescription" => $this->m_description,
-        );
-
-        if ($this->m_requestedAttributes !== null && count($this->m_requestedAttributes) > 0)
-        {
-            $attributeConsumingService["requestedAttributes"] = array();
-
-            foreach ($this->m_requestedAttributes as $requestedAttribute)
-            {
-                /* @var $requestedAttribute RequestedAttribute */
-                $attributeConsumingService[] = $requestedAttribute->toArray();
-            }
-        }
-
         // Identity Provider Data that we want connected with our SP.
         $arrayForm = array();
 
@@ -94,7 +83,24 @@ final class ServiceProviderConfig
         // If you need to specify requested attributes, set a
         // attributeConsumingService. nameFormat, attributeValue and
         // friendlyName can be omitted
-        $arrayForm["attributeConsumingService"] = $attributeConsumingService;
+        if ($this->m_requestedAttributes !== null && count($this->m_requestedAttributes) > 0)
+        {
+            // we only create the $attributeConsumingService if we are requesting attributes.
+            $attributeConsumingService = array(
+                "serviceName" => $this->m_name,
+                "serviceDescription" => $this->m_description,
+            );
+
+            $attributeConsumingService["requestedAttributes"] = array();
+
+            foreach ($this->m_requestedAttributes as $requestedAttribute)
+            {
+                /* @var $requestedAttribute RequestedAttribute */
+                $attributeConsumingService[] = $requestedAttribute->toArray();
+            }
+
+            $arrayForm["attributeConsumingService"] = $attributeConsumingService;
+        }
 
         // Specifies info about where and how the <Logout Response> message MUST be
         // returned to the requester, in this case our SP.
@@ -112,7 +118,7 @@ final class ServiceProviderConfig
         // Specifies the constraints on the name identifier to be used to
         // represent the requested subject.
         // Take a look on lib/Saml2/Constants.php to see the NameIdFormat supported.
-        $arrayForm['NameIDFormat'] = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress';
+        $arrayForm['NameIDFormat'] = (string)$this->m_subjectNameIdFormat;
 
         // Usually x509cert and privateKey of the SP are provided by files placed at
         // the certs folder. But we can also provide them with the following parameters
@@ -131,4 +137,14 @@ final class ServiceProviderConfig
 
         return $arrayForm;
     }
+
+
+    # Accessors
+    public function getNameIdFormat() : NameIdFormat { return $this->m_subjectNameIdFormat; }
+    public function getEntityId() : string { return $this->m_entityId; }
+    public function getName() : string { return $this->m_name; }
+    public function getDescription() : string { return $this->m_description; }
+    public function getPublicCert() : string { return $this->m_publicCert; }
+    public function getPrivateKey() : string { return $this->m_privateKey; }
+    public function getRequestedAttributes() : string { return $this->m_requestedAttributes; }
 }

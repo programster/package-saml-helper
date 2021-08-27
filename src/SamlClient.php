@@ -12,12 +12,129 @@ namespace Programster\Saml;
 class SamlClient
 {
     private \OneLogin\Saml2\Auth $m_auth;
-
+    private SamlConfig $m_config;
 
     public function __construct(SamlConfig $config)
     {
+        $this->m_config = $config;
         $auth = new \OneLogin\Saml2\Auth($config->toArray());
         $this->m_auth = $auth;
+    }
+
+
+    /**
+     * Retrieves the metadata of the service provider based on the settings.
+     * Spec doc: https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf
+     * Validation tool: https://validator.safire.ac.za/
+     *
+     * @param bool $signMetadata - whether you want the generated metadata xml to be signed. This will use your
+     * service provider certificate to sign the XML.
+     *
+     * @param bool $authnsign - authnRequestsSigned attribute - Optional attribute that indicates whether the
+     * <samlp:AuthnRequest> messages sent by this service provider will be signed.
+     *
+     * @param bool $wantAssertionsSigned - Optional attribute that indicates a requirement for the <saml:Assertion>
+     * elements received by this service provider to be signed. If omitted, the value is assumed to be false. This
+     * requirement is in addition to any requirement for signing derived from the use of a particular profile/binding
+     * combination.
+     *
+     * @param int|null $validUntil - the unix timestamp the metadata is valid until. If not provided (null value), then
+     * this tool will automatically set it to 2 days from now.
+     *
+     * @param int|null $cacheDuration - Duration of the cache in seconds
+     *
+     * @param ContactCollection|null $contacts - any details of contacts you wish to provide. Unfortuantely due to
+     * how the underlying package works, you can only have one contact per contact type. E.g. only one "billing"
+     * contact.
+     *
+     * @param Organization|null $organization - optionally provide details of the organization behind the service
+     * provider
+     *
+     * @return string - the generated SAML Metadata XML
+     */
+    public function getServiceProviderMetadata(
+        bool $signMetadata = true,
+        bool $authnsign = false,
+        bool $wantAssertionsSigned = false,
+        ?int $validUntil = null,
+        ?int $cacheDuration = null,
+        ?ContactCollection $contacts = null,
+        ?Organization $organization = null
+    ) : string
+    {
+        $settings = $this->getAuth()->getSettings();
+
+        // if user provided contacts, convert it to the array format the underlying package is expecting.
+        if ($contacts !== null && count($contacts) > 0)
+        {
+            $contactsArray = [];
+
+            foreach ($contacts as $contact)
+            {
+                /* @var $contact \Programster\Saml\Contact */
+                $contactsArray[(string)$contact->getType()] = [
+                    'givenName' => $contact->getName(),
+                    'emailAddress' => $contact->getEmail()
+                ];
+            }
+        }
+        else
+        {
+            $contactsArray = [];
+        }
+
+        if ($organization !== null)
+        {
+            $organizationArray = array();
+
+            foreach ($organization->getTranslations() as $organizationTranslation)
+            {
+                /* @var $organizationTranslation OrganizationTranslation */
+                $organizationArray[$organizationTranslation->getLanguageCode()] = [
+                    'name' => $organizationTranslation->getName(),
+                    'displayname' => $organizationTranslation->getDisplayname(),
+                    'url' => $organizationTranslation->getUrl(),
+                ];
+            }
+        }
+
+        $xmlString = \OneLogin\Saml2\Metadata::builder(
+            $settings->getSPData(),
+            $authnsign = false,
+            $wantAssertionsSigned = false,
+            $validUntil = null,
+            $cacheDuration = null,
+            $contactsArray,
+            $organizationArray
+        );
+
+        $xmlString = \OneLogin\Saml2\Metadata::addX509KeyDescriptors(
+            $xmlString,
+            $this->m_config->getServiceProviderConfig()->getPublicCert()
+        );
+
+        if ($signMetadata)
+        {
+            $this->m_config->getServiceProviderConfig();
+
+            $xmlString = \OneLogin\Saml2\Metadata::signMetadata(
+                $xmlString,
+                $this->m_config->getServiceProviderConfig()->getPrivateKey(),
+                $this->m_config->getServiceProviderConfig()->getPublicCert(),
+            );
+        }
+
+        // format the xml
+        $simpleXml = simplexml_load_string($xmlString);
+        $dom = new \DOMDocument('1.0');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($simpleXml->asXML());
+        $simpleXmlElement = new \SimpleXMLElement($dom->saveXML());
+        //$formatxml->saveXML("testF.xml"); // save as file
+        $formattedXml = $simpleXmlElement->saveXML();
+
+        return $formattedXml;
     }
 
 
@@ -83,7 +200,7 @@ class SamlClient
             true, // keepLocalSession
             null, // requestId
             false, // retrieveParametersFromServer
-            null, // $cbDeleteSession
+            null, // cbDeleteSession
             true // stay
         );
 

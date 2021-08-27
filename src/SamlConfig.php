@@ -55,4 +55,9 @@ final class SamlConfig
 
         return $arrayForm;
     }
+
+
+    # Accessors
+    public function getServiceProviderConfig() : ServiceProviderConfig { return $this->m_serviceProviderConfig; }
+    public function getIdpConfig() : IdentityProviderConfig { return $this->m_identityProviderConfig; }
 }
