@@ -7,7 +7,7 @@ declare(strict_types = 1);
 namespace Programster\Saml;
 
 
-final class ContactCollection extends ArrayObject
+final class ContactCollection extends \ArrayObject
 {
     public function __construct(Contact ...$contacts)
     {
