@@ -8,6 +8,7 @@ namespace Programster\Saml;
 
 final class ServiceProviderConfig
 {
+    private NameIdFormat $m_subjectNameIdFormat;
     private string $m_entityId;
     private string $m_name;
     private string $m_description;
@@ -19,6 +20,8 @@ final class ServiceProviderConfig
     /**
      *
      * @param string $entityId - the entity ID of this service provider. E.g. https://app.mydomain.com
+     * @param NameIdFormat $subjectNameIdFormat - Specifies the constraints on the name identifier to be used to
+     * represent the requested subject.
      * @param string $name - the name of this service provider. E.g. "Programster Forum"
      * @param string $description - the description of this service provider. E.g. "A forum for Programster".
      * @param string $loginHandlerUrl - the URL/endpoint of this service where we expect to handle the response from
@@ -34,6 +37,7 @@ final class ServiceProviderConfig
      */
     public function __construct(
         string $entityId,
+        NameIdFormat $subjectNameIdFormat,
         string $name,
         string $description,
         string $loginHandlerUrl,
@@ -43,6 +47,7 @@ final class ServiceProviderConfig
         RequestedAttribute ...$requestedAttributes
     )
     {
+        $this->m_subjectNameIdFormat = $subjectNameIdFormat;
         $this->m_name = $name;
         $this->m_description = $description;
         $this->m_entityId = $entityId;
@@ -56,8 +61,6 @@ final class ServiceProviderConfig
 
     public function toArray() : array
     {
-
-
         // Identity Provider Data that we want connected with our SP.
         $arrayForm = array();
 
@@ -115,7 +118,7 @@ final class ServiceProviderConfig
         // Specifies the constraints on the name identifier to be used to
         // represent the requested subject.
         // Take a look on lib/Saml2/Constants.php to see the NameIdFormat supported.
-        $arrayForm['NameIDFormat'] = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress';
+        $arrayForm['NameIDFormat'] = (string)$this->m_subjectNameIdFormat;
 
         // Usually x509cert and privateKey of the SP are provided by files placed at
         // the certs folder. But we can also provide them with the following parameters
@@ -137,6 +140,7 @@ final class ServiceProviderConfig
 
 
     # Accessors
+    public function getNameIdFormat() : NameIdFormat { return $this->m_subjectNameIdFormat; }
     public function getEntityId() : string { return $this->m_entityId; }
     public function getName() : string { return $this->m_name; }
     public function getDescription() : string { return $this->m_description; }

@@ -9,7 +9,7 @@ class RequestedAttribute
 {
     private string $m_name;
     private bool $m_isRequired;
-    public string $m_nameFormat;
+    public AttributeNameFormat $m_nameFormat;
     public string $m_friendlyName;
     public array $m_attributeValue;
 
@@ -17,7 +17,7 @@ class RequestedAttribute
     public function __construct(
         string $name,
         bool $isRequired,
-        string $nameFormat,
+        AttributeNameFormat $nameFormat,
         string $friendlyName,
         array $attributeValue
     )
@@ -35,7 +35,7 @@ class RequestedAttribute
         return [
             "name" => $this->m_name,
             "isRequired" => $this->m_isRequired,
-            "nameFormat" => $this->m_nameFormat,
+            "nameFormat" => (string)$this->m_nameFormat,
             "friendlyName" => $this->m_friendlyName,
             "attributeValue" => $this->m_attributeValue,
         ];
