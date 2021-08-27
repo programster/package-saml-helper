@@ -22,6 +22,91 @@ class SamlClient
 
 
     /**
+     * Retrieves the metadata of the service provider based on the settings.
+     * https://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf
+     *
+     * @param bool $authnsign - authnRequestsSigned attribute - Optional attribute that indicates whether the
+     * <samlp:AuthnRequest> messages sent by this service provider will be signed.
+     *
+     * @param bool $wantAssertionsSigned - Optional attribute that indicates a requirement for the <saml:Assertion>
+     * elements received by this service provider to be signed. If omitted, the value is assumed to be false. This
+     * requirement is in addition to any requirement for signing derived from the use of a particular profile/binding
+     * combination.
+     *
+     * @param int|null $validUntil - the unix timestamp the metadata is valid until. If not provided (null value), then
+     * this tool will automatically set it to 2 days from now.
+     *
+     * @param int|null $cacheDuration - Duration of the cache in seconds
+     *
+     * @param ContactCollection|null $contacts - any details of contacts you wish to provide. Unfortuantely due to
+     * how the underlying package works, you can only have one contact per contact type. E.g. only one "billing"
+     * contact.
+     *
+     * @param array $organization  Organization ingo
+     *
+     * @param array         $attributes
+     *
+     * @return string SAML Metadata XML
+     */
+    public function getServiceProviderMetadata(
+        bool $authnsign = false,
+        bool $wantAssertionsSigned = false,
+        ?int $validUntil = null,
+        ?int $cacheDuration = null,
+        ?ContactCollection $contacts = null,
+        ?Organization $organization = null,
+        array $attributes = array()
+    ) : string
+    {
+        $settings = $this->getAuth()->getSettings();
+
+        // if user provided contacts, convert it to the array format the underlying package is expecting.
+        if ($contacts !== null && count($contacts) > 0)
+        {
+            $contactsArray = [];
+
+            foreach ($contacts as $contact)
+            {
+                /* @var $contact \Programster\Saml\Contact */
+                $contactsArray[$contact->getType()] = [
+                    'givenName' => $contact->getName(),
+                    'emailAddress' => $contact->getEmail()
+                ];
+            }
+        }
+        else
+        {
+            $contactsArray = [];
+        }
+
+        if ($organization !== null)
+        {
+            $organizationArray = array();
+
+            foreach ($organization->getTranslations() as $organizationTranslation)
+            {
+                /* @var $organizationTranslation OrganizationTranslation */
+                $organizationArray[$organizationTranslation->getLanguageCode()] = [
+                    'name' => $organizationTranslation->getName(),
+                    'displayname' => $organizationTranslation->getDisplayname(),
+                    'url' => $organizationTranslation->getUrl(),
+                ];
+            }
+        }
+
+        return \OneLogin\Saml2\Metadata::builder(
+            $settings->getSPData(),
+            $authnsign = false,
+            $wantAssertionsSigned = false,
+            $validUntil = null,
+            $cacheDuration = null,
+            $contactsArray,
+            $organizationArray
+        );
+    }
+
+
+    /**
      * Handle a user requesting to log in, but through the SSO. This will redirect the user's browser to
      * the SAML SSO where they will be prompted to log in if they arent already, and then redirected back with the SAML
      * signed response containing user information and session information etc.

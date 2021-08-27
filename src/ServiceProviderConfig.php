@@ -56,21 +56,7 @@ final class ServiceProviderConfig
 
     public function toArray() : array
     {
-        $attributeConsumingService = array(
-            "serviceName" => $this->m_name,
-            "serviceDescription" => $this->m_description,
-        );
 
-        if ($this->m_requestedAttributes !== null && count($this->m_requestedAttributes) > 0)
-        {
-            $attributeConsumingService["requestedAttributes"] = array();
-
-            foreach ($this->m_requestedAttributes as $requestedAttribute)
-            {
-                /* @var $requestedAttribute RequestedAttribute */
-                $attributeConsumingService[] = $requestedAttribute->toArray();
-            }
-        }
 
         // Identity Provider Data that we want connected with our SP.
         $arrayForm = array();
@@ -94,7 +80,24 @@ final class ServiceProviderConfig
         // If you need to specify requested attributes, set a
         // attributeConsumingService. nameFormat, attributeValue and
         // friendlyName can be omitted
-        $arrayForm["attributeConsumingService"] = $attributeConsumingService;
+        if ($this->m_requestedAttributes !== null && count($this->m_requestedAttributes) > 0)
+        {
+            // we only create the $attributeConsumingService if we are requesting attributes.
+            $attributeConsumingService = array(
+                "serviceName" => $this->m_name,
+                "serviceDescription" => $this->m_description,
+            );
+
+            $attributeConsumingService["requestedAttributes"] = array();
+
+            foreach ($this->m_requestedAttributes as $requestedAttribute)
+            {
+                /* @var $requestedAttribute RequestedAttribute */
+                $attributeConsumingService[] = $requestedAttribute->toArray();
+            }
+
+            $arrayForm["attributeConsumingService"] = $attributeConsumingService;
+        }
 
         // Specifies info about where and how the <Logout Response> message MUST be
         // returned to the requester, in this case our SP.
