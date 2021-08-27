@@ -11,7 +11,7 @@ class RequestedAttribute
     private bool $m_isRequired;
     public ?AttributeNameFormat $m_nameFormat;
     public ?string $m_friendlyName;
-    public ?array $m_attributeValue;
+    public string|int|float|null $m_attributeValue;
 
 
     /**
@@ -29,7 +29,7 @@ class RequestedAttribute
         string $name,
         ?string $friendlyName = null,
         ?AttributeNameFormat $nameFormat = null,
-        ?array $attributeValue
+        string|int|float|null $attributeValue = null
     )
     {
         $this->m_name = $name;
