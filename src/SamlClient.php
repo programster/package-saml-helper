@@ -97,6 +97,10 @@ class SamlClient
                 ];
             }
         }
+        else
+        {
+            $organizationArray = array();
+        }
 
         $xmlString = \OneLogin\Saml2\Metadata::builder(
             $settings->getSPData(),
