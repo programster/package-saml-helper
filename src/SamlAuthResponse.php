@@ -16,7 +16,7 @@ class SamlAuthResponse
     private string $m_nameId;
     private string $m_nameIdFormat;
     private ?string $m_nameIdNameQualifier;
-    private string $m_serviceProviderNameQualifier;
+    private ?string $m_serviceProviderNameQualifier;
     private string $m_sessionIndex;
 
 
@@ -32,8 +32,24 @@ class SamlAuthResponse
         $this->m_sessionIndex = $auth->getSessionIndex();
         $this->m_nameId = $auth->getNameId();
         $this->m_nameIdFormat = $auth->getNameIdFormat();
-        $this->m_nameIdNameQualifier = $auth->getNameIdNameQualifier();
-        $this->m_serviceProviderNameQualifier = $auth->getNameIdSPNameQualifier();
+
+        if ($auth->getNameIdNameQualifier() !== null)
+        {
+            $this->m_nameIdNameQualifier = $auth->getNameIdNameQualifier();
+        }
+        else
+        {
+            $this->m_nameIdNameQualifier = null;
+        }
+
+        if ($auth->getNameIdSPNameQualifier() !== null)
+        {
+            $this->m_serviceProviderNameQualifier = $auth->getNameIdSPNameQualifier();
+        }
+        else
+        {
+            $this->m_serviceProviderNameQualifier = null;
+        }
     }
 
 
@@ -42,6 +58,6 @@ class SamlAuthResponse
     public function getNameId() : string  { return $this->m_nameId; }
     public function getNameIdFormat() : string { return $this->m_nameIdFormat; }
     public function getNameIdNameQualifier() : ?string { return $this->m_nameIdNameQualifier; }
-    public function getServiceProviderNameQualifier() : string { return $this->m_serviceProviderNameQualifier; }
+    public function getServiceProviderNameQualifier() : ?string { return $this->m_serviceProviderNameQualifier; }
     public function getSessionIndex() : string { return $this->m_sessionIndex; }
 }
