@@ -14,13 +14,13 @@ class SamlClient
     private $m_auth;
     private $m_config;
 
-    public function __construct(SamlConfig $config)
+    public function __construct(SamlConfig $config, $useProxy = false)
     {
         $this->m_config = $config;
         $auth = new \OneLogin\Saml2\Auth($config->toArray());
         $this->m_auth = $auth;
 
-        \OneLogin\Saml2\Utils::setProxyVars($config['useProxy'] ?? false);
+        \OneLogin\Saml2\Utils::setProxyVars($useProxy);
     }
 
 
