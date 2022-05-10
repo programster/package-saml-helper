@@ -1,5 +1,5 @@
 {
-    "name": "programster/saml",
+    "name": "j6montoya/saml",
     "type": "library",
     "description": "A library to help with interfacing with a SAML SSO. This does so by wrapping around the onelogin/php-saml package.",
     "keywords": ["SAML", "SSO"],
@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": ">=7.4.0",
+        "php": ">=7.3.0",
         "onelogin/php-saml": "^4.0",
         "ext-dom": "*",
         "ext-xml": "*"
