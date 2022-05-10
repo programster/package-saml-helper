@@ -10,7 +10,7 @@ declare(strict_types = 1);
 namespace Programster\Saml;
 
 
-final class NameIdFormat implements \Stringable
+final class NameIdFormat
 {
     private $m_format;
 

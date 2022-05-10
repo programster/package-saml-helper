@@ -19,6 +19,8 @@ class SamlClient
         $this->m_config = $config;
         $auth = new \OneLogin\Saml2\Auth($config->toArray());
         $this->m_auth = $auth;
+
+        \OneLogin\Saml2\Utils::setProxyVars($config['useProxy'] ?? false);
     }
 
 
