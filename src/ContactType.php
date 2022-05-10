@@ -12,7 +12,7 @@ namespace Programster\Saml;
 
 final class ContactType implements \Stringable
 {
-    private string $m_type;
+    private $m_type;
 
 
     private function __construct(string $type)

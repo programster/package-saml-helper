@@ -13,7 +13,7 @@ namespace Programster\Saml;
 
 final class Organization
 {
-    private array $m_organizationTranslations;
+    private $m_organizationTranslations;
 
     /**
      * Create an organization. An organization consists of one or more descriptions in different languages.

@@ -11,8 +11,8 @@ namespace Programster\Saml\Exceptions;
 
 final class ExceptionSamlErrors extends \Exception
 {
-    private array $m_errors;
-    private string $m_lastErrorReason;
+    private $m_errors;
+    private $m_lastErrorReason;
 
 
     public function __construct(\OneLogin\Saml2\Auth $auth)

@@ -7,12 +7,11 @@ namespace Programster\Saml;
 
 class RequestedAttribute
 {
-    private string $m_name;
-    private bool $m_isRequired;
-    public ?AttributeNameFormat $m_nameFormat;
-    public ?string $m_friendlyName;
+    private $m_name;
+    private $m_isRequired;
+    public $m_nameFormat;
+    public $m_friendlyName;
     public $m_attributeValue;
-
 
     /**
      *

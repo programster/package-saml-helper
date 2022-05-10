@@ -8,12 +8,12 @@ namespace Programster\Saml;
 
 final class IdentityProviderConfig
 {
-    private string $m_entityId;
-    private string $m_authUrl;
-    private string $m_logoutUrl;
-    private ?string $m_logoutResponseUrl;
-    private string $m_publicSigningCertificate;
-    private ?string $m_publicEncryptionCertificate;
+    private $m_entityId;
+    private $m_authUrl;
+    private $m_logoutUrl;
+    private $m_logoutResponseUrl;
+    private $m_publicSigningCertificate;
+    private $m_publicEncryptionCertificate;
 
     /**
      *

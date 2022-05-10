@@ -11,8 +11,8 @@ namespace Programster\Saml;
 
 class SamlClient
 {
-    private \OneLogin\Saml2\Auth $m_auth;
-    private SamlConfig $m_config;
+    private $m_auth;
+    private $m_config;
 
     public function __construct(SamlConfig $config)
     {
@@ -235,7 +235,7 @@ class SamlClient
             throw new Exceptions\ExceptionInvalidUrl("You need to pass a valid URL to return to.");
         }
 
-        $this->m_auth->logout($returnToURL);   // Method that sent the AuthNRequest
+        $this->m_auth->logout($returnToUrl);   // Method that sent the AuthNRequest
     }
 
 

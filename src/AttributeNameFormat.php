@@ -12,7 +12,7 @@ namespace Programster\Saml;
 
 final class AttributeNameFormat implements \Stringable
 {
-    private string $m_format;
+    private $m_format;
 
 
     private function __construct(string $format)

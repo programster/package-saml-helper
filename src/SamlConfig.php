@@ -7,11 +7,11 @@ namespace Programster\Saml;
 
 final class SamlConfig
 {
-    private bool $m_strict;
-    private bool $m_debug;
+    private $m_strict;
+    private $m_debug;
 
-    private ServiceProviderConfig $m_serviceProviderConfig;
-    private IdentityProviderConfig $m_identityProviderConfig;
+    private $m_serviceProviderConfig;
+    private $m_identityProviderConfig;
 
 
     /**

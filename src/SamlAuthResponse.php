@@ -12,12 +12,12 @@ namespace Programster\Saml;
 
 class SamlAuthResponse
 {
-    private array $m_userAttributes;
-    private string $m_nameId;
-    private string $m_nameIdFormat;
-    private ?string $m_nameIdNameQualifier;
-    private ?string $m_serviceProviderNameQualifier;
-    private string $m_sessionIndex;
+    private $m_userAttributes;
+    private $m_nameId;
+    private $m_nameIdFormat;
+    private $m_nameIdNameQualifier;
+    private $m_serviceProviderNameQualifier;
+    private $m_sessionIndex;
 
 
     /**

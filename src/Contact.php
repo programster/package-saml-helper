@@ -11,9 +11,9 @@ namespace Programster\Saml;
 
 final class Contact
 {
-    private ContactType $m_type;
-    private string $m_name;
-    private string $m_email;
+    private $m_type;
+    private $m_name;
+    private $m_email;
 
 
     public function __construct(ContactType $type, string $name, string $email)

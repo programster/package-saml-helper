@@ -11,10 +11,10 @@ namespace Programster\Saml;
 
 final class OrganizationTranslation
 {
-    private string $m_langCode;
-    private string $m_name; // OrganizationName
-    private string $m_displayName; // OrganizationDisplayName
-    private string $m_url; // OrganizationURL
+    private $m_langCode;
+    private $m_name; // OrganizationName
+    private $m_displayName; // OrganizationDisplayName
+    private $m_url; // OrganizationURL
 
 
     /**

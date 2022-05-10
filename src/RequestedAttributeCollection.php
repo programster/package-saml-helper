@@ -21,7 +21,7 @@ final class RequestedAttributeCollection extends \ArrayObject
         }
         else
         {
-            throw new Exception("Cannot append non RequestedAttribute to a " . __CLASS__);
+            throw new \Exception("Cannot append non RequestedAttribute to a " . __CLASS__);
         }
     }
 
@@ -34,7 +34,7 @@ final class RequestedAttributeCollection extends \ArrayObject
         }
         else
         {
-            throw new Exception("Cannot add a non RequestedAttribute value to a " . __CLASS__);
+            throw new \Exception("Cannot add a non RequestedAttribute value to a " . __CLASS__);
         }
     }
 }

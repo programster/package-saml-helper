@@ -8,13 +8,13 @@ namespace Programster\Saml;
 
 final class ServiceProviderConfig
 {
-    private NameIdFormat $m_subjectNameIdFormat;
-    private string $m_entityId;
-    private string $m_name;
-    private string $m_description;
-    private string $m_publicCert;
-    private string $m_privateKey;
-    private array $m_requestedAttributes;
+    private $m_subjectNameIdFormat;
+    private $m_entityId;
+    private $m_name;
+    private $m_description;
+    private $m_publicCert;
+    private $m_privateKey;
+    private $m_requestedAttributes;
 
 
     /**

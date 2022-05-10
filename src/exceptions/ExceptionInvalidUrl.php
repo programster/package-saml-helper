@@ -11,7 +11,7 @@ namespace Programster\Saml\Exceptions;
 
 final class ExceptionInvalidUrl extends \Exception
 {
-    private string $m_url;
+    private $m_url;
 
 
     public function __construct(string $passedUrl)
