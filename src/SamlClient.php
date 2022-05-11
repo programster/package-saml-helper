@@ -154,14 +154,14 @@ class SamlClient
      * @throws Exceptions\ExceptionInvalidUrl - if the provided URL is not a URL.
      * @return void - this redirects the user.
      */
-    public function handleUserLoginRequest(string $returnToUrl) : void
+    public function handleUserLoginRequest(string $returnToUrl, $stay = false)
     {
         if (filter_var($returnToUrl, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === false)
         {
             throw new Exceptions\ExceptionInvalidUrl($returnToUrl);
         }
 
-        $this->m_auth->login($returnToUrl);   // Method that sent the AuthNRequest
+        return $this->m_auth->login($returnToUrl, [], false, false, $stay);   // Method that sent the AuthNRequest
     }
 
 
