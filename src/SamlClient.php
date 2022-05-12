@@ -14,11 +14,14 @@ class SamlClient
     private \OneLogin\Saml2\Auth $m_auth;
     private SamlConfig $m_config;
 
-    public function __construct(SamlConfig $config)
+
+    public function __construct(SamlConfig $config, bool $useProxy = false)
     {
         $this->m_config = $config;
         $auth = new \OneLogin\Saml2\Auth($config->toArray());
         $this->m_auth = $auth;
+
+        \OneLogin\Saml2\Utils::setProxyVars($useProxy);
     }
 
 
@@ -146,20 +149,29 @@ class SamlClient
      * Handle a user requesting to log in, but through the SSO. This will redirect the user's browser to
      * the SAML SSO where they will be prompted to log in if they arent already, and then redirected back with the SAML
      * signed response containing user information and session information etc.
+     * 
      * @param string $returnToUrl - the URL that the SAML SSO should redirect back to with the user info.
      * This should be the URL/endpoint where we have our SAML authentication handler that processes such a
      * response. E.g. calls the SamlHelper's handleSamlLoginResponse method.
+     *
+     * @param bool $stay - set to true if we want to stay and have this function returns the URL string that we would
+     * need to redirect the user to. Leave as false (default), to automatically redirect to the SSO rather than
+     * return the URL.
+     *
      * @throws Exceptions\ExceptionInvalidUrl - if the provided URL is not a URL.
      * @return void - this redirects the user.
      */
-    public function handleUserLoginRequest(string $returnToUrl) : void
+    public function handleUserLoginRequest(string $returnToUrl, bool $stay = false)
     {
         if (filter_var($returnToUrl, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED) === false)
         {
             throw new Exceptions\ExceptionInvalidUrl($returnToUrl);
         }
 
-        $this->m_auth->login($returnToUrl);   // Method that sent the AuthNRequest
+        return $this->m_auth->login(
+            returnTo: $returnToUrl,
+            stay: $stay
+        );
     }
 
 
@@ -227,7 +239,7 @@ class SamlClient
             throw new Exceptions\ExceptionInvalidUrl("You need to pass a valid URL to return to.");
         }
 
-        $this->m_auth->logout($returnToURL);   // Method that sent the AuthNRequest
+        $this->m_auth->logout($returnToUrl);   // Method that sent the AuthNRequest
     }
 
 
