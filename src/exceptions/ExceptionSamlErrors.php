@@ -26,5 +26,5 @@ final class ExceptionSamlErrors extends \Exception
 
     # Accessors
     public function getErrors() : array { return $this->m_errors; }
-    public function getLastErrorREason() : string { return $this->m_lastErrorReason; }
+    public function getLastErrorReason() : string { return $this->m_lastErrorReason; }
 }

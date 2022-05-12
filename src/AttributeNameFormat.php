@@ -10,7 +10,7 @@ declare(strict_types = 1);
 namespace Programster\Saml;
 
 
-final class AttributeNameFormat implements \Stringable
+final class AttributeNameFormat
 {
     private string $m_format;
 
@@ -26,7 +26,7 @@ final class AttributeNameFormat implements \Stringable
     public static function createBasic() : AttributeNameFormat { return new AttributeNameFormat('urn:oasis:names:tc:SAML:2.0:attrname-format:basic'); }
 
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->m_format;
     }

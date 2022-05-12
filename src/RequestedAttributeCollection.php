@@ -21,20 +21,20 @@ final class RequestedAttributeCollection extends \ArrayObject
         }
         else
         {
-            throw new Exception("Cannot append non RequestedAttribute to a " . __CLASS__);
+            throw new \Exception("Cannot append non RequestedAttribute to a " . __CLASS__);
         }
     }
 
 
-    public function offsetSet($index, $newval)
+    public function offsetSet($index, $newVal)
     {
-        if ($newval instanceof RequestedAttribute)
+        if ($newVal instanceof RequestedAttribute)
         {
-            parent::offsetSet($index, $newval);
+            parent::offsetSet($index, $newVal);
         }
         else
         {
-            throw new Exception("Cannot add a non RequestedAttribute value to a " . __CLASS__);
+            throw new \Exception("Cannot add a non RequestedAttribute value to a " . __CLASS__);
         }
     }
 }

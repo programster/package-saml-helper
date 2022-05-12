@@ -23,20 +23,20 @@ final class ContactCollection extends \ArrayObject
         }
         else
         {
-            throw new Exception("Cannot append non Contact to a " . __CLASS__);
+            throw new \Exception("Cannot append non Contact to a " . __CLASS__);
         }
     }
 
 
-    public function offsetSet($index, $newval)
+    public function offsetSet($key, $value)
     {
-        if ($newval instanceof Contact)
+        if ($value instanceof Contact)
         {
-            parent::offsetSet($index, $newval);
+            parent::offsetSet($key, $value);
         }
         else
         {
-            throw new Exception("Cannot add a non Contact value to a " . __CLASS__);
+            throw new \Exception("Cannot add a non Contact value to a " . __CLASS__);
         }
     }
 }
