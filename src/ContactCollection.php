@@ -28,11 +28,11 @@ final class ContactCollection extends \ArrayObject
     }
 
 
-    public function offsetSet($index, $newval)
+    public function offsetSet($key, $value)
     {
-        if ($newval instanceof Contact)
+        if ($value instanceof Contact)
         {
-            parent::offsetSet($index, $newval);
+            parent::offsetSet($key, $value);
         }
         else
         {

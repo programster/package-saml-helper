@@ -46,7 +46,7 @@ class SamlClient
      *
      * @param int|null $cacheDuration - Duration of the cache in seconds
      *
-     * @param ContactCollection|null $contacts - any details of contacts you wish to provide. Unfortuantely due to
+     * @param ContactCollection|null $contacts - any details of contacts you wish to provide. Unfortunately, due to
      * how the underlying package works, you can only have one contact per contact type. E.g. only one "billing"
      * contact.
      *
@@ -107,10 +107,10 @@ class SamlClient
 
         $xmlString = \OneLogin\Saml2\Metadata::builder(
             $settings->getSPData(),
-            $authnsign = false,
-            $wantAssertionsSigned = false,
-            $validUntil = null,
-            $cacheDuration = null,
+            $authnsign,
+            $wantAssertionsSigned,
+            $validUntil,
+            $cacheDuration,
             $contactsArray,
             $organizationArray
         );
@@ -138,7 +138,6 @@ class SamlClient
         $dom->formatOutput = true;
         $dom->loadXML($simpleXml->asXML());
         $simpleXmlElement = new \SimpleXMLElement($dom->saveXML());
-        //$formatxml->saveXML("testF.xml"); // save as file
         $formattedXml = $simpleXmlElement->saveXML();
 
         return $formattedXml;
@@ -147,7 +146,7 @@ class SamlClient
 
     /**
      * Handle a user requesting to log in, but through the SSO. This will redirect the user's browser to
-     * the SAML SSO where they will be prompted to log in if they arent already, and then redirected back with the SAML
+     * the SAML SSO where they will be prompted to log in if they aren't already, and then redirected back with the SAML
      * signed response containing user information and session information etc.
      * 
      * @param string $returnToUrl - the URL that the SAML SSO should redirect back to with the user info.
@@ -178,7 +177,7 @@ class SamlClient
     /**
      * Handle a SAML login/authenticate response.
      * @return SamlAuthResponse - the information in the SAML response. Crucially this contains the method
-     * getUserAttributes() for getting the attributes of the logged in user.
+     * getUserAttributes() for getting the attributes of the logged-in user.
      * It is still up to you to implement the necessary logic for your site to consider the user logged in.
      * E.g. get the user info from the response object and set the session user ID etc.
      * @throws Exceptions\ExceptionSamlErrors - if there were errors

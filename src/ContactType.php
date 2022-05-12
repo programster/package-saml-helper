@@ -1,7 +1,7 @@
 <?php
 
 /*
- * A class that acts as an enum (because PHP doesnt have enums yet), for the allowed contact types.
+ * A class that acts as an enum (because PHP doesn't have enums yet), for the allowed contact types.
  * More info: https://saml2.sustainsys.com/en/stable/config-elements/contact-person.html
  */
 
@@ -28,7 +28,7 @@ final class ContactType implements \Stringable
     public static function createOther() : ContactType { return new ContactType("other"); }
 
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->m_type;
     }

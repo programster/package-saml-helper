@@ -32,7 +32,7 @@ final class NameIdFormat implements \Stringable
     public static function createEncrypted() : NameIdFormat { return new NameIdFormat('urn:oasis:names:tc:SAML:2.0:nameid-format:encrypted'); }
 
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->m_format;
     }
