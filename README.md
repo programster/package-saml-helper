@@ -19,7 +19,7 @@ $idpConfig = new \Programster\Saml\IdentityProviderConfig(
     entityId: IDENTITY_PROVIDER_IDENTITY_URI,
     authUrl: IDENTITY_PROVIDER_AUTH_URL,
     logoutUrl: IDENTITY_PROVIDER_LOGOUT_URL,
-    publicSigningCertificate: file_get_contents(IDENTITY_PROVIDER_PUBLIC_SIGNING_CERT),
+    publicSigningCertificates: [file_get_contents(IDENTITY_PROVIDER_PUBLIC_SIGNING_CERT)],
 );
 
 $samlConfig = new \Programster\Saml\SamlConfig($spConfig, $idpConfig);
