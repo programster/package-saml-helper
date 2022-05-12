@@ -2,7 +2,8 @@
 A package to help with integrating with a SAML SSO.
 
 ## Example Usage
-All of the examples require first creating the SAML "client" which has all of the settings. One must create it like so:
+All of the examples require first creating the SAML "client" which has all of the settings. One must
+create it like so:
 
 ```php
 $spConfig = new Programster\Saml\ServiceProviderConfig(
@@ -26,9 +27,9 @@ $samlConfig = new \Programster\Saml\SamlConfig($spConfig, $idpConfig);
 $samlClient = new \Programster\Saml\SamlClient($samlConfig);
 ```
 
-I know that seems a bit long-winded, but the client requires a lot of settings to be configured, and I prefer this over
-expecting the developer to just pass in an array of key/value pairs and expecting them to know what keys they need to
-set etc.
+I know that seems a bit long-winded, but the client requires a lot of settings to be configured, and
+I prefer this over expecting the developer to just pass in an array of key/value pairs and expecting
+them to know what keys they need to set etc.
 
 
 Once you have the SAML client, you can use it for handling all the requests/responses like so:
