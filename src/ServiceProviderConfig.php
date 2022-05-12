@@ -146,5 +146,5 @@ final class ServiceProviderConfig
     public function getDescription() : string { return $this->m_description; }
     public function getPublicCert() : string { return $this->m_publicCert; }
     public function getPrivateKey() : string { return $this->m_privateKey; }
-    public function getRequestedAttributes() : string { return $this->m_requestedAttributes; }
+    public function getRequestedAttributes() : array { return $this->m_requestedAttributes; }
 }

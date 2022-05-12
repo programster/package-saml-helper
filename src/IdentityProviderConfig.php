@@ -22,11 +22,11 @@ final class IdentityProviderConfig
      * @param string $entityId - the entity ID of the identity provider.
      * E.g. "https://idp.mydomain.com/simplesaml/saml2/idp/metadata.php"
      *
-     * @param string $authUrl - the URL of the authentication endpoing on the SSO.
+     * @param string $authUrl - the URL of the authentication endpoint on the SSO.
      * E.g. "https://idp.mydomain.com/simplesaml/saml2/idp/SSOService.php"
      *
      * @param string $logoutUrl - the URL of where to send a logout request to the SSO.
-     * E.g. "https://idp.mydomain.com/simplesaml/saml2/idp/SingleLogoutService.php
+     * E.g. https://idp.mydomain.com/simplesaml/saml2/idp/SingleLogoutService.php
      *
      * @param string|null $logoutResponseUrl -  URL location of the identity provider where we will send the logout
      * response. If set to null, the $logoutUrl will be used.

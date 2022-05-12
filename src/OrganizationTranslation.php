@@ -37,6 +37,6 @@ final class OrganizationTranslation
     # Accessors
     public function getLanguageCode() : string { return $this->m_langCode; }
     public function getName() : string { return $this->m_name; }
-    public function getDisplayname() : string { return $this->m_displayName; }
+    public function getDisplayName() : string { return $this->m_displayName; }
     public function getUrl() : string { return $this->m_url; }
 }

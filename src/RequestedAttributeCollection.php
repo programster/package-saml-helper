@@ -26,11 +26,11 @@ final class RequestedAttributeCollection extends \ArrayObject
     }
 
 
-    public function offsetSet($index, $newval)
+    public function offsetSet($index, $newVal)
     {
-        if ($newval instanceof RequestedAttribute)
+        if ($newVal instanceof RequestedAttribute)
         {
-            parent::offsetSet($index, $newval);
+            parent::offsetSet($index, $newVal);
         }
         else
         {
