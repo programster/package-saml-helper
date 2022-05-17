@@ -1,4 +1,4 @@
 vendor
 
-# ignore phpstorm IDE
+# Ignore phpstorm files
 .idea

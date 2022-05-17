@@ -12,30 +12,40 @@ final class IdentityProviderConfig
     private string $m_authUrl;
     private string $m_logoutUrl;
     private ?string $m_logoutResponseUrl;
-    private string $m_publicSigningCertificate;
-    private ?string $m_publicEncryptionCertificate;
+    private array $m_publicSigningCertificates;
+    private array $m_publicEncryptionCertificates;
+
 
     /**
+     * Create the configuration for the identity provider.
      *
      * @param string $entityId - the entity ID of the identity provider.
      * E.g. "https://idp.mydomain.com/simplesaml/saml2/idp/metadata.php"
+     *
      * @param string $authUrl - the URL of the authentication endpoint on the SSO.
      * E.g. "https://idp.mydomain.com/simplesaml/saml2/idp/SSOService.php"
+     *
      * @param string $logoutUrl - the URL of where to send a logout request to the SSO.
      * E.g. https://idp.mydomain.com/simplesaml/saml2/idp/SingleLogoutService.php
+     *
      * @param string|null $logoutResponseUrl -  URL location of the identity provider where we will send the logout
      * response. If set to null, the $logoutUrl will be used.
-     * @param string $publicSigningCertificate - the public certificate of the identity provider that we shall use to
-     * verify their signed messages
-     * @param string|null $publicEncryptionCertificate - the public certificate of the identity provider that we shall
-     * use to decrypt their messages. If set to null, then we will use the $publicSigningCertificate.
+     *
+     * @param array $publicSigningCertificates - a collection of strings, with each string representing a public
+     * certificate of the identity provider that we shall use to verify their signed messages. Allowing multiple
+     * certificates facilitates certificate rollover.
+     * E.g. https://stackoverflow.com/questions/35909251/saml2-metadata-multiple-signing-certificates
+     *
+     * @param array $publicEncryptionCertificates - a collection of strings, with each string being the content of a
+     * public certificate of the identity provider that we shall use to decrypt their messages. Messages from the
+     * identity provider may not be encrypted, in which case this array can be empty.
      */
     public function __construct(
         string $entityId,
         string $authUrl,
         string $logoutUrl,
-        string $publicSigningCertificate,
-        ?string $publicEncryptionCertificate = null,
+        array $publicSigningCertificates,
+        array $publicEncryptionCertificates = array(),
         ?string $logoutResponseUrl = null
     )
     {
@@ -43,8 +53,8 @@ final class IdentityProviderConfig
         $this->m_authUrl = $authUrl;
         $this->m_logoutUrl = $logoutUrl;
         $this->m_logoutResponseUrl = $logoutResponseUrl;
-        $this->m_publicSigningCertificate = $publicSigningCertificate;
-        $this->m_publicEncryptionCertificate = $publicEncryptionCertificate;
+        $this->m_publicSigningCertificates = $publicSigningCertificates;
+        $this->m_publicEncryptionCertificates = $publicEncryptionCertificates;
     }
 
 
@@ -70,7 +80,7 @@ final class IdentityProviderConfig
         );
 
         // SLO endpoint info of the IdP.
-        $arrayForm['singleLogoutService'] = array (
+        $arrayForm['singleLogoutService'] = array(
             // URL Location of the IdP where SLO Request will be sent.
             'url' => $this->m_logoutUrl,
 
@@ -84,22 +94,21 @@ final class IdentityProviderConfig
             'binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
         );
 
-
-        if ($this->m_publicEncryptionCertificate !== null)
-        {
-            $arrayForm['x509certMulti'] = array(
-                'signing' => array(
-                    0 => $this->m_publicSigningCertificate,
-                ),
-                'encryption' => array(
-                    0 => $this->m_publicEncryptionCertificate
-                ),
-            );
-        }
-        else
+        if
+        (
+               count($this->m_publicEncryptionCertificates) === 0
+            && count($this->m_publicSigningCertificates)    === 1
+        )
         {
             // Public x509 certificate of the IdP
             $arrayForm['x509cert'] = $this->m_publicSigningCertificate;
+        }
+        else
+        {
+            $arrayForm['x509certMulti'] = array(
+                'signing' => array_values($this->m_publicSigningCertificates),
+                'encryption' => array_values($this->m_publicEncryptionCertificates),
+            );
         }
 
         return $arrayForm;
@@ -111,6 +120,6 @@ final class IdentityProviderConfig
     public function getAuthUrl() : string { return $this->m_authUrl; }
     public function getLogoutUrl() : string { return $this->m_logoutUrl; }
     public function getLogoutResponseUrl() : ?string { return $this->m_logoutResponseUrl; }
-    public function getPublicSingingCertificate() : string { return $this->m_publicSigningCertificate; }
-    public function getPublicEncryptionCertificate() : ?string { return $this->m_publicEncryptionCertificate; }
+    public function getPublicSigningCertificates() : array { return $this->m_publicSigningCertificates; }
+    public function getPublicEncryptionCertificates() : array { return $this->m_publicEncryptionCertificates; }
 }
