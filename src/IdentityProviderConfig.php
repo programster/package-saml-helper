@@ -80,7 +80,7 @@ final class IdentityProviderConfig
         );
 
         // SLO endpoint info of the IdP.
-        $arrayForm['singleLogoutService'] = array (
+        $arrayForm['singleLogoutService'] = array(
             // URL Location of the IdP where SLO Request will be sent.
             'url' => $this->m_logoutUrl,
 
@@ -94,9 +94,10 @@ final class IdentityProviderConfig
             'binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
         );
 
-        if (
+        if
+        (
                count($this->m_publicEncryptionCertificates) === 0
-            && count($this->m_publicSigningCertificates) === 1
+            && count($this->m_publicSigningCertificates)    === 1
         )
         {
             // Public x509 certificate of the IdP
@@ -104,13 +105,10 @@ final class IdentityProviderConfig
         }
         else
         {
-            if ($this->m_publicEncryptionCertificate !== null)
-            {
-                $arrayForm['x509certMulti'] = array(
-                    'signing' => array_values($this->m_publicSigningCertificates),
-                    'encryption' => array_values($this->m_publicEncryptionCertificates),
-                );
-            }
+            $arrayForm['x509certMulti'] = array(
+                'signing' => array_values($this->m_publicSigningCertificates),
+                'encryption' => array_values($this->m_publicEncryptionCertificates),
+            );
         }
 
         return $arrayForm;
