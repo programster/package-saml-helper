@@ -101,7 +101,7 @@ final class IdentityProviderConfig
         )
         {
             // Public x509 certificate of the IdP
-            $arrayForm['x509cert'] = $this->m_publicSigningCertificate;
+            $arrayForm['x509cert'] = reset($this->m_publicSigningCertificates);
         }
         else
         {
